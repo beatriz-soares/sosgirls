@@ -1,0 +1,56 @@
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SOS Girls</title>
+</head>
+
+<body>
+<section class="container pb20">
+
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-dismissible" role="alert">
+            <button style="margin-top: 12px;" type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 style="margin-top: 12px;">{{ message }}</h4>
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <h2 class="text-success">Acesso ao Sistema</h2>
+            <form action="" method="post">
+                {% csrf_token %}
+
+                {{ form.username.errors }}
+                <div class="form-group has-feedback">
+                    {{ form.username.label_tag }}
+                    {{form.username}}
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+
+                {{ form.password.errors }}
+                <div class="form-group has-feedback">
+                    {{ form.password.label_tag }}
+                    {{form.password}}
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+
+                <div class="row visible-sm visible-xs">
+                    <div class="col-xs-12">
+                        <button class="btn btn-success btn-block" type="submit" name="entrar">Entrar</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</section>
+</html>
