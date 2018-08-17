@@ -1,10 +1,115 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-    HELLO MODAFOCA
-  </body>
-</html>
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load bootstrap_pagination %}
+{% load comum_extras %}
+{% block extra_css %}
+<!-- Coloque aqui seus arquivos de estilo -->
+{% endblock %}
+
+{% block index %} active {% endblock %}
+
+{% block breadcrumb %}
+<section class="content-header">
+    <h1>
+        Início
+        <small>Dados Gerais da Aplicação</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><i class="fa fa-dashboard"></i> Index</li>
+    </ol>
+</section>
+{% endblock %}
+
+{% block content %}
+<section class="content">
+  {% for depoimento in depoimentos %}
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title">{{depoimento.titulo}}</h3>
+               <button type="button" name="button" class="btn btn-small btn-info pull-right">Deixe um recado motivador</button>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="container">{{depoimento.conteudo}}</div>
+                </div>
+                <div class="col-md-12">
+                  <small class="pull-right">Publicado por: {{depoimento.autor}}
+                  </small>
+
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+          <div class="panel-group" id="accordion-{{depoimento.id}}" role="tablist" aria-multiselectable="true">
+              <div class="panel panel-default">
+                  <div class="panel-heading" role="tab" id="headingOne-{{depoimento.id}}">
+                      <h4 class="panel-title">
+                          <a class="a-span" role="button" data-toggle="collapse" data-parent="#accordion-{{depoimento.id}}"
+                             href="#collapseOne-{{depoimento.id}}" aria-expanded="true" aria-controls="collapseOne-{{depoimento.id}}">
+                              <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Comentários
+                          </a>
+                      </h4>
+                  </div>
+
+                  <div id="collapseOne-{{depoimento.id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne-{{depoimento.id}}">
+                      <div class="panel-body">
+                          {% for comentario in depoimento.comentarios.all %}
+
+                            <div class="direct-chat-msg">
+                          <div class="direct-chat-info clearfix">
+                            <span class="direct-chat-name pull-left">{{comentario.autor}}</span>
+                          </div>
+                          <!-- /.direct-chat-img -->
+                          <div class="direct-chat-text">
+                            {{comentario.conteudo}}
+                          </div>
+                          <!-- /.direct-chat-text -->
+                        </div>
+                        {% empty %}
+                        <p>Seja o(a) primeiro(a) a comentar!</p>
+                        {%endfor%}
+                          <form action="" method="get">
+                              <div class="row">
+                                  <div class="col-md-12">
+                                      <div class="form-group">
+                                          <label for="{{depoimento.id}}"></label>
+                                          <input type="text" name="comentario" value="" id="{{depoimento.id}}" class="form-control">
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="underline"></div>
+
+                              <button class="btn btn-success pull-right" type="submit">Comentar</button>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+    </div>
+    {%empty%}
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title">Sem depoimentos</h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="container">Não há depoimentos para exibir</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+    <nav aria-label="Page navigation">
+    <ul class="pagination">
+        {% bootstrap_paginate depoimentos range=5 show_prev_next="true" show_first_last="true" %}
+    </ul>
+  </nav>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}
