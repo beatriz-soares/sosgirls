@@ -8,4 +8,7 @@ urlpatterns = [
     url(r'^logout/', views.logout_aplicacao, name='logout'),
     url(r'^novo_depoimento/', views.novo_depoimento, name='novo_depoimento'),
     url(r'^novo_comentario/(?P<id>\d+)/$', views.novo_comentario, name='novo_comentario'),
+    url(r'^nova_mensagem/(?P<id>\d+)/$', views.nova_mensagem, name='nova_mensagem'),
+    url(r'^mensagens/$', views.ver_mensagens, name='mensagens'),
+    url(r'^mensagens/(?P<id>\d+)/$', views.mensagens, name='mensagens'),
 ]

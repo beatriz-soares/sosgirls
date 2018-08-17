@@ -12,6 +12,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from comum.forms import *
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.http import JsonResponse
 
 # Create your views here.
 def paginar_registros(request, registros, qtd_por_pagina):
@@ -95,3 +96,22 @@ def novo_comentario(request, id):
         Comentario.objects.create(autor=request.user, pai=depoimento, conteudo=conteudo)
         messages.success(request, u"Seu comentário foi postado!")
         return HttpResponseRedirect(reverse('comum:index'))
+
+def nova_mensagem(request, id):
+    if request.POST:
+        conteudo = request.POST["msgm"]
+        depoimento = Depoimentos.objects.get(pk=id)
+        Mensagem.objects.create(autor=request.user, destinatario=depoimento.autor, conteudo=conteudo, lida=False)
+        messages.success(request, u"Sua mensagem foi enviada ao autor do depoimento!")
+        return HttpResponseRedirect(reverse('comum:index'))
+
+def ver_mensagens(request):
+    registros = Mensagem.objects.filter(destinatario=request.user).order_by("-id")
+    mensagens = paginar_registros(request, registros, 15)
+    return render(request, 'ver_mensagens.html', {"mensagens":mensagens})
+
+def mensagens(request, id):
+    mensagem = Mensagem.objects.get(pk=id)
+    mensagem.lida=True
+    mensagem.save()
+    return JsonResponse({"conteudo":mensagem.conteudo})

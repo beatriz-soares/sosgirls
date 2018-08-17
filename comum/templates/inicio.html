@@ -26,7 +26,9 @@
     <div class="box box-info">
         <div class="box-header with-border">
             <h3 class="box-title">{{depoimento.titulo}}</h3>
-               <button type="button" name="button" class="btn btn-small btn-info pull-right" data-toggle="modal" data-target="#exampleModal">Deixe um recado motivador</button>
+                {% if depoimento.autor == request.user%}
+               <button type="button" name="button" class="btn btn-small btn-info pull-right recado" data-id="{{depoimento.id}}" data-toggle="modal" data-target="#exampleModal">Deixe um recado motivador</button>
+               {% endif %}
         </div>
         <div class="box-body">
             <div class="row">
@@ -69,7 +71,7 @@
                         {% empty %}
                         <p>Seja o(a) primeiro(a) a comentar!</p>
                         {%endfor%}
-                          <form action="{% url 'comum:novo_comentario' depoimento.id %}" method="get">
+                          <form action="{% url 'comum:novo_comentario' depoimento.id %}" method="get" id="comente">
                               <div class="row">
                                   <div class="col-md-12">
                                       <div class="form-group">
@@ -81,7 +83,7 @@
 
                               <div class="underline"></div>
 
-                              <button class="btn btn-success pull-right" type="submit">Comentar</button>
+                              <button for="#comente"class="btn btn-success pull-right" type="submit">Comentar</button>
                           </form>
                       </div>
                   </div>
@@ -118,11 +120,22 @@
         </button>
       </div>
       <div class="modal-body">
-        corpo
+        <form action="" method="post" id="msg-motivadora">
+          {% csrf_token %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label >Mensagem</label>
+                        <textarea rows=5 name="msgm" value="" id="msgm" class="form-control">
+                      </textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-        <button type="button" class="btn btn-primary">Enviar</button>
+        <button type="submit" for="#msg-motivadora" id="enviarmsg" class="btn btn-primary">Enviar</button>
       </div>
     </div>
   </div>
@@ -132,4 +145,14 @@
 {% endblock %}
 
 {% block extra_js %}
+<script type="text/javascript">
+  $(".recado").on("click", function(){
+    var depoimento = $(this).attr("data-id");
+    $('#msg-motivadora').attr('action', "/nova_mensagem/"+depoimento+"/");
+
+  });
+  $("#enviarmsg").on("click", function(){
+    $('#msg-motivadora').submit();
+  });
+</script>
 {% endblock %}
