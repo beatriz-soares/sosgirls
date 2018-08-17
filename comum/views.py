@@ -87,3 +87,11 @@ def novo_depoimento(request):
         return HttpResponseRedirect(reverse('comum:index'))
 
     return render(request, 'novo_depoimento.html', {"form":form})
+
+def novo_comentario(request, id):
+    if request.GET:
+        conteudo = request.GET["comentario"]
+        depoimento = Depoimentos.objects.get(pk=id)
+        Comentario.objects.create(autor=request.user, pai=depoimento, conteudo=conteudo)
+        messages.success(request, u"Seu comentário foi postado!")
+        return HttpResponseRedirect(reverse('comum:index'))
