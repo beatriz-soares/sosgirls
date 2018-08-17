@@ -26,7 +26,7 @@ SECRET_KEY = '6*$7bv92^528uyzl48$++z4x!ipwxssm0oq*5jngn48umyqo67'
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = "/home/beatrizsoares/sosgirls/comum/static"
 
 # Application definition
 
