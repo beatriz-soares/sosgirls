@@ -9,6 +9,8 @@ class TipoDepoimentos(models.Model):
     nome = models.CharField(max_length=30)
     def __unicode__(self):
         return '%s' % (self.nome)
+    def __str__(self):
+        return '%s' % (self.nome)
 
 class Depoimentos(models.Model):
     titulo = models.CharField(max_length=100)
