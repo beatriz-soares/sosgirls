@@ -11,3 +11,11 @@ class NovoDepoimentoForm(forms.ModelForm):
             'conteudo': u"Conteúdo",
             'tipo': u"Tipo"
         }
+
+class NovoTipoDepoimentoForm(forms.ModelForm):
+    class Meta:
+        model = TipoDepoimentos
+        fields = ('nome',)
+        labels = {
+            'nome': u"Nome",
+        }

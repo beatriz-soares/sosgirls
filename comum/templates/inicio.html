@@ -25,6 +25,7 @@
   {% for depoimento in depoimentos %}
     <div class="box box-info">
         <div class="box-header with-border">
+          <span class="label label-default">{{depoimento.tipo.nome}}</span>
             <h3 class="box-title">{{depoimento.titulo}}</h3>
                 {% if depoimento.autor == request.user%}
                <button type="button" name="button" class="btn btn-small btn-info pull-right recado" data-id="{{depoimento.id}}" data-toggle="modal" data-target="#exampleModal">Deixe um recado motivador</button>

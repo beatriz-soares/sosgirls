@@ -89,6 +89,26 @@ def novo_depoimento(request):
 
     return render(request, 'novo_depoimento.html', {"form":form})
 
+def tipos_depoimento(request):
+    if request.user.is_superuser:
+        registros = TipoDepoimentos.objects.all().order_by("-id")
+        depoimentos = paginar_registros(request, registros, 15)
+        return render(request, "tipos_depoimento.html", {"depoimentos":depoimentos})
+    else:
+        return HttpResponseRedirect(reverse('comum:index'))
+
+def novo_tipo_depoimento(request):
+    if request.user.is_superuser:
+        form = NovoTipoDepoimentoForm(request.POST or None)
+        if request.POST and form.is_valid():
+            depoimento = form.save()
+            messages.success(request, "Novo tipo de depoimento salvo!")
+            return HttpResponseRedirect(reverse('comum:tipos_depoimento'))
+
+        return render(request, 'novo_tipo_depoimento.html', {"form":form})
+    else:
+        return HttpResponseRedirect(reverse('comum:index'))
+
 def novo_comentario(request, id):
     if request.GET:
         conteudo = request.GET["comentario"]
