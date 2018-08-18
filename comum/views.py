@@ -29,29 +29,25 @@ def paginar_registros(request, registros, qtd_por_pagina):
 def index(request):
     if request.user.is_authenticated():
         registros = Depoimentos.objects.all().order_by("-id")
-        # form = FiltroTelediagnosticoForm(request.GET or None)
-        # if request.GET and form.is_valid():
-        #     mes_referencia = form.cleaned_data.get('mes_referencia')
-        #     data_inicio_exame = form.cleaned_data.get('data_inicial_exame')
-        #     data_fim_exame = form.cleaned_data.get('data_final_exame')
-        #     data_inicio_laudo = form.cleaned_data.get('data_inicial_laudo')
-        #     data_fim_laudo = form.cleaned_data.get('data_final_laudo')
-        #
-        #     if mes_referencia:
-        #         registros = registros.filter(conjunto_indicadores__mes_referencia=mes_referencia.strftime("%m%Y"))
-        #     if data_inicio_exame:
-        #         registros = registros.filter(data_exame__date__gte=data_inicio_exame)
-        #     if data_fim_exame:
-        #         registros = registros.filter(data_exame__date__lte=data_fim_exame)
-        #     if data_inicio_laudo:
-        #         registros = registros.filter(data_laudo__date__gte=data_inicio_laudo)
-        #     if data_fim_laudo:
-        #         registros = registros.filter(data_laudo__date__lte=data_fim_laudo)
+        form = FiltroDepoimentoForm(request.GET or None)
+        if request.GET and form.is_valid():
+            tipo = form.cleaned_data.get('tipo')
+            if tipo:
+                registros = registros.filter(tipo=tipo)
         depoimentos = paginar_registros(request, registros, 15)
         # return render(request, 'comum/listagem_telediagnosticos.html', {'telediagnosticos': telediagnosticos, 'form': form})
-        return render(request, "inicio.html", {"depoimentos":depoimentos})
+        return render(request, "inicio.html", {"depoimentos":depoimentos, "form":form})
     else:
         return HttpResponseRedirect(reverse('comum:login'))
+
+def novo_usuario(request):
+    form = NovoUserForm(request.POST or None)
+    if request.POST and form.is_valid():
+        depoimento = form.save()
+        messages.success(request, "Novo usuário cadastrado! Você já pode fazer login")
+        return HttpResponseRedirect(reverse('comum:index'))
+
+    return render(request, "novo_usuario.html", {"form":form})
 
 
 def login_aplicacao(request):

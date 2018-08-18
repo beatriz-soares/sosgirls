@@ -22,12 +22,47 @@
 
 {% block content %}
 <section class="content">
+  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+      <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingOne">
+              <h4 class="panel-title">
+                  <a class="a-span" role="button" data-toggle="collapse" data-parent="#accordion"
+                     href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Busca
+                  </a>
+              </h4>
+          </div>
+
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+              <div class="panel-body">
+                  {{ form.errors }}
+
+                  <form action="" method="get">
+                      <div class="row">
+                          {% for field in form %}
+                          <div class="{% if forloop.counter > 1 %} col-md-6 {% else %} col-md-12 {% endif %}">
+                              <div class="form-group">
+                                  {{ field.label_tag }}
+                                  {{ field|add_css_class:"form-control" }}
+                              </div>
+                          </div>
+                          {% endfor %}
+                      </div>
+
+                      <div class="underline"></div>
+
+                      <button class="btn btn-success pull-right" type="submit">Buscar</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
   {% for depoimento in depoimentos %}
     <div class="box box-info">
         <div class="box-header with-border">
           <span class="label label-default">{{depoimento.tipo.nome}}</span>
             <h3 class="box-title">{{depoimento.titulo}}</h3>
-                {% if depoimento.autor == request.user%}
+                {% if depoimento.autor != request.user%}
                <button type="button" name="button" class="btn btn-small btn-info pull-right recado" data-id="{{depoimento.id}}" data-toggle="modal" data-target="#exampleModal">Deixe um recado motivador</button>
                {% endif %}
         </div>

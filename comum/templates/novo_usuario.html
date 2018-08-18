@@ -22,7 +22,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="#"><b>SOS</b>Girls</a>
+    <a href="#"><b>Cadastre-se</b></a>
   </div>
   {% if messages %}
       {% for message in messages %}
@@ -36,31 +36,38 @@
   {% endif %}
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Acesso ao Sistema</p>
+    <p class="login-box-msg">Novo Usuário</p>
 
     <form action="" method="post">
       {% csrf_token %}
 
       {{ form.username.errors }}
+      {{ form.username.label_tag }}
       <div class="form-group has-feedback">
         {{ form.username|add_css_class:'form-control' }}
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
 
-      {{ form.password.errors }}
+      {{ form.password1.errors }}
+      {{ form.password1.label_tag }}
       <div class="form-group has-feedback">
-        {{ form.password|add_css_class:'form-control' }}
+        {{ form.password1|add_css_class:'form-control' }}
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      {{ form.password2.errors }}
+      <label for="id_password2">Confirme a senha:</label>
+      <div class="form-group has-feedback">
+        {{ form.password2|add_css_class:'form-control' }}
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
 
       <div class="row">
         <div class="col-xs-12">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Criar</button>
         </div>
         <!-- /.col -->
       </div>
     </form>
-    <br><a href="{% url 'comum:novo_usuario' %}">Criar meu usuário</a>
   </div>
   <!-- /.login-box-body -->
 </div>
