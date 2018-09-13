@@ -75,8 +75,8 @@ def logout_aplicacao(request):
     return HttpResponseRedirect(reverse('comum:index'))
 
 def novo_depoimento(request):
-    form = NovoDepoimentoForm(request.POST or None)
-    if request.POST and form.is_valid():
+    form = NovoDepoimentoForm(request.POST or None, request.FILES or None)
+    if request.POST and request.FILES and form.is_valid():
         depoimento = form.save(commit=False)
         depoimento.autor = request.user
         depoimento.save()
@@ -112,6 +112,11 @@ def novo_comentario(request, id):
         Comentario.objects.create(autor=request.user, pai=depoimento, conteudo=conteudo)
         messages.success(request, u"Seu comentário foi postado!")
         return HttpResponseRedirect(reverse('comum:index'))
+
+def apagar_depoimento(request, id):
+    depoimento = Depoimentos.objects.get(pk=id).delete()
+    messages.success(request, u"O depoimento foi apagado!")
+    return HttpResponseRedirect(reverse('comum:index'))
 
 def nova_mensagem(request, id):
     if request.POST:

@@ -17,6 +17,7 @@ class Depoimentos(models.Model):
     conteudo = models.TextField()
     autor = models.ForeignKey(User)
     tipo = models.ForeignKey(TipoDepoimentos, null=True)
+    document = models.FileField(upload_to='documents/', null=True, blank=True)
 
 class Comentario(models.Model):
     conteudo = models.CharField(max_length=500)

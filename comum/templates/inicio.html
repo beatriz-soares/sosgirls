@@ -60,6 +60,9 @@
   {% for depoimento in depoimentos %}
     <div class="box box-info">
         <div class="box-header with-border">
+          {% if request.user.is_superuser %}
+          <a href="{% url 'comum:apagar_depoimento' depoimento.id %}" class="btn btn-small btn-danger pull-right">Apagar</a>
+          {% endif %}
           <span class="label label-default">{{depoimento.tipo.nome}}</span>
             <h3 class="box-title">{{depoimento.titulo}}</h3>
                 {% if depoimento.autor != request.user%}
@@ -68,6 +71,9 @@
         </div>
         <div class="box-body">
             <div class="row">
+                <div class="col-md-12" style="text-align:center;">
+                  <img src="{{depoimento.document.url}}" class="img-fluid rounded mx-auto d-block" style="max-width:100%; max-height:100%;" alt="">
+                </div>
                 <div class="col-md-12">
                     <div id="container">{{depoimento.conteudo}}</div>
                 </div>

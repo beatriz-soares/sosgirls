@@ -7,11 +7,12 @@ from django.utils.translation import ugettext_lazy as _
 class NovoDepoimentoForm(forms.ModelForm):
     class Meta:
         model = Depoimentos
-        fields = ('titulo', 'conteudo', 'tipo')
+        fields = ('titulo', 'conteudo', 'tipo', 'document')
         labels = {
             'titulo': u"Título",
             'conteudo': u"Conteúdo",
-            'tipo': u"Tipo"
+            'tipo': u"Tipo",
+            'document':"Anexe uma imagem",
         }
 
 class FiltroDepoimentoForm(forms.Form):
