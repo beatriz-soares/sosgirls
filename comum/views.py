@@ -136,3 +136,12 @@ def mensagens(request, id):
     mensagem.lida=True
     mensagem.save()
     return JsonResponse({"conteudo":mensagem.conteudo})
+
+def estatistica(request):
+    total_count = Depoimentos.objects.all().count()
+    percentuais = []
+    for tipo in TipoDepoimentos.objects.all():
+        cnt = Depoimentos.objects.filter(tipo=tipo).count()
+        perc = cnt * 100 / total_count
+        percentuais.append({"nome": tipo.nome, "percentual":perc})
+    return render(request, 'estatistica.html', {"percentuais":percentuais})
