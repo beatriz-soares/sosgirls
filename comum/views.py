@@ -76,7 +76,7 @@ def logout_aplicacao(request):
 
 def novo_depoimento(request):
     form = NovoDepoimentoForm(request.POST or None, request.FILES or None)
-    if request.POST and request.FILES and form.is_valid():
+    if request.POST and form.is_valid():
         depoimento = form.save(commit=False)
         depoimento.autor = request.user
         depoimento.save()
