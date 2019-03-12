@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load comum_extras %}
+{% block extra_css %}
+  <!-- Coloque aqui seus arquivos de estilo -->
+{% endblock %}
+{% block novo_depoimento %}active{% endblock %}
+{% block breadcrumb %}
+  <section class="content-header">
+    <h1>
+      Comentario
+      <small>Teste teste teste.</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'index' %}"><i class="fa fa-dashboard"></i> Início</a></li>
+        <li class="active">Teste</li>
+    </ol>
+  </section>
+{% endblock %}
+
+{% block content %}
+  <section class="content">
+    <!-- Coloque aqui seus conteúdo -->
+    <form id="dados" class="underline-form" action="" method="post">
+    {% csrf_token %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4 class="panel-title">Vínculos do Profissional</h4>
+        </div>
+
+        <div class="panel-body" id="form_vinculos">
+            {{ vinculo_form.management_form }}
+
+            {% for form in vinculo_form %}
+                          <div class="input-vinculo">
+                {{ form.non_field_errors }}
+
+                <div class="form-group">
+                    {{ form.conteudo.errors }}
+                    {{ form.conteudo.label_tag }}
+                    {{ form.conteudo|add_css_class:"form-control" }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.autor.errors }}
+                    {{ form.autor.label_tag }}
+                    {{ form.autor|add_css_class:"form-control" }}
+                </div>
+
+                {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+                {% endfor %}
+                <div class="underline"></div>
+            </div>
+            <hr>
+            {% endfor %}
+
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#novo-vinculo"
+            data-backdrop="static" data-keyboard="false">
+                Adicionar Vínculo
+            </button>
+        </div>
+
+    </div>
+    </form>
+    <button type="submit" name="salvar" form="dados" class="btn btn-success pull-right">
+        Salvar
+    </button>
+  </section>
+{% endblock %}
+
+{% block extra_js %}
+  <!-- Coloque aqui seus arquivos de script -->
+{% endblock %}

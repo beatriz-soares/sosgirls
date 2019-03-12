@@ -35,9 +35,9 @@
         <!-- Header Navbar -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
-          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+          <!-- <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
-          </a>
+          </a> -->
           <!-- Navbar Right Menu -->
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
@@ -134,6 +134,7 @@
             <li class="{% block tipos_depoimento %}{% endblock %}"><a href="{% url 'comum:tipos_depoimento' %}"><i class="fa fa-link"></i> <span>Tipos de depoimento</span></a></li>
             {% endif %}
             <li class="{% block estatistica %}{% endblock %}"><a href="{% url 'comum:estatistica' %}"><i class="fa fa-link"></i> <span>Estatística</span></a></li>
+            <li class=""><a href="{% url 'comum:novo_comentario' 1 %}"><i class="fa fa-link"></i> <span>Formset Inaldo</span></a></li>
           </ul>
           <!-- /.sidebar-menu -->
         </section>

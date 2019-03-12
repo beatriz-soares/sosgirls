@@ -13,6 +13,12 @@ from django.urls import reverse
 from comum.forms import *
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import JsonResponse
+from django.forms import inlineformset_factory
+
+def editar_vinculos_formset(extra=0):
+    return inlineformset_factory(Depoimentos, Comentario, form=CadastroCommentForm,
+                                 can_delete=True, extra=extra, max_num=15,
+                                 fields=('conteudo', 'autor'))
 
 # Create your views here.
 def paginar_registros(request, registros, qtd_por_pagina):
@@ -106,12 +112,17 @@ def novo_tipo_depoimento(request):
         return HttpResponseRedirect(reverse('comum:index'))
 
 def novo_comentario(request, id):
-    if request.GET:
-        conteudo = request.GET["comentario"]
-        depoimento = Depoimentos.objects.get(pk=id)
-        Comentario.objects.create(autor=request.user, pai=depoimento, conteudo=conteudo)
-        messages.success(request, u"Seu comentário foi postado!")
-        return HttpResponseRedirect(reverse('comum:index'))
+    profissional = Depoimentos.objects.get(pk=id)
+    EditarVinculoFormSet = editar_vinculos_formset()
+    vinculo_form = EditarVinculoFormSet(request.POST or None, instance=profissional)
+    if request.POST:
+        if vinculo_form.is_valid():
+                vinculo_form.save()
+        else:
+            print "ERROOOOO"
+            messages.warning(request, u"Verifique os dados inseridos")
+            return render(request, "inaldo.html", locals())
+    return render(request, "inaldo.html", locals())
 
 def apagar_depoimento(request, id):
     depoimento = Depoimentos.objects.get(pk=id).delete()

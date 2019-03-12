@@ -3,6 +3,7 @@ from django import forms
 from comum.models import *
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
+from django_select2.forms import ModelSelect2MultipleWidget, ModelSelect2Widget
 
 class NovoDepoimentoForm(forms.ModelForm):
     # document = forms.FileField(required=False)
@@ -70,3 +71,10 @@ class NovoUserForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+class CadastroCommentForm(forms.ModelForm):
+    autor = forms.ModelChoiceField(queryset=User.objects.order_by("id"), label="Usuario:",
+                                         required=False)
+    class Meta:
+        model = Comentario
+        fields = ('conteudo', 'autor')
